@@ -1,0 +1,29 @@
+<h1>Home</h1>
+<button onclick="window.location.href='/submit/';">
+    Add Ticket
+  </button>
+
+
+
+
+
+<h1>Incoming</h1>
+{% for item in new %}
+<div>
+    {{item.title}}
+</div>
+{% endfor %}
+
+<h1>In Progress</h1>
+{% for item in inprogress %}
+<div>
+    {{item.title}}
+</div>
+{% endfor %}
+
+<h1>Completed</h1>
+{% for item in done %}
+<div>
+    {{item.title}}
+</div>
+{% endfor %}
