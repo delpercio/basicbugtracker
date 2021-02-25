@@ -60,7 +60,7 @@ def submit_ticket_view(request):
             description = data['description'],
             created_by=request.user
             )
-            return HttpResponseRedirect(reverse("homepage"))
+            return HttpResponseRedirect(reverse('homepage'))
     form = AddTicketForm()
     return render(request,'submit.html',{'form': form})
 
@@ -95,7 +95,8 @@ def claim_ticket(request, ticket_id):
     ticket.assigned_to = request.user
     ticket.status = 'In Progress'
     ticket.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(reverse('ticket_view', args=[ticket.id]))
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def complete_ticket(request, ticket_id):
@@ -104,7 +105,8 @@ def complete_ticket(request, ticket_id):
     ticket.assigned_to = None
     ticket.status = 'Done'
     ticket.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(reverse('ticket_view', args=[ticket.id]))
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def invalid_ticket(request, ticket_id):
@@ -113,4 +115,5 @@ def invalid_ticket(request, ticket_id):
     ticket.assigned_to = None
     ticket.status = 'Invalid'
     ticket.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(reverse('ticket_view', args=[ticket.id]))
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
