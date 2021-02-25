@@ -4,16 +4,43 @@
     {{ticket.title}}
 </h1>
 <p>
-   Reported By: {{ticket.created_by}}
-</p>
-<p>
+    Submited On: {{ticket.time_reported}}
+    <br>
+    Reported By: {{ticket.created_by}}
+    <br>
     Issue: {{ticket.description}}
-</p>
 
-{% if not ticket.assigned_to%}
+</p>
+<a href="/edit/{{ticket.id}}">edit</a>
+
+<!-- if ticket is labeled as invalid its done and users cant claim or change that  -->
+{% if ticket.status == 'Invalid' %}
+<h5>TICKET IS INVALID</h5>
+{% else %}
+
+
+{% if not ticket.assigned_to and not ticket.completed_by%}
     <a href="/claim/{{ticket.id}}">Claim</a>
 {% else %}
-    <p>Assigned to: {{ticket.assigned_to}}</p>
+    <p>Assigned To: {{ticket.assigned_to}}</p>
 {% endif %}
 
-<Button>Mark as Completed</Button>
+
+<!-- Users who are not assigned a ticket cannot close it  -->
+{% if ticket.assigned_to != None %}
+    <p> In Progress By: {{ticket.assigned_to}}</p>
+{% endif %}
+
+{% if not ticket.completed_by %}
+    <a href="/complete/{{ticket.id}}">Mark as complete</a>
+{% else %}
+    <p>Completed By: {{ticket.completed_by}}</p>
+{% endif %} 
+
+{% if not ticket.status == 'Invalid' %}
+    <a href="/invalid/{{ticket.id}}">Mark as Invalid</a>
+{% endif %} 
+
+
+{% endif %}
+

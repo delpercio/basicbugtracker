@@ -8,4 +8,4 @@ class CustomUserAdmin(admin.ModelAdmin):
     position = 'position'
 
 admin.site.register(Ticket)
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser, UserAdmin)

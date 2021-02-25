@@ -25,4 +25,9 @@
 </div>
 {% endfor %}
 
-<a href="/ticket/{{ticket.id}}" >{{item.title}} </a>
+<h1>Invalid</h1>
+{% for item in invalid %}
+<div>
+    <p>Ticket Id: {{item.id}} Title: <a href="/ticket/{{item.id}}" >{{item.title}} </a> Created by: <a href="/user/{{user.id}}" >{{item.created_by}}</a></p>
+</div>
+{% endfor %}

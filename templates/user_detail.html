@@ -4,8 +4,20 @@
 <h1>Created Tickets</h1>
 {% for item in created_tickets %}
 <div>
+    <p>Ticket Id #: {{item.id}} Status: {{item.status}} Title: <a href="/ticket/{{item.id}}" >{{item.title}} </a> Created by: <a href="/user/{{user.id}}" >{{item.created_by}}</a></p>
+</div>
+{% endfor %}
+
+<h1>Tickets In Progress</h1>
+{% for item in in_progress %}
+<div>
     <p>Ticket Id #: {{item.id}} Title: <a href="/ticket/{{item.id}}" >{{item.title}} </a> Created by: <a href="/user/{{user.id}}" >{{item.created_by}}</a></p>
 </div>
 {% endfor %}
-<h1>Tickets In Progress</h1>
+
 <h1>Completed Tickets</h1>
+{% for item in completed_tickets %}
+<div>
+    <p>Ticket Id #: {{item.id}} Title: <a href="/ticket/{{item.id}}" >{{item.title}} </a> Created by: <a href="/user/{{user.id}}" >{{item.created_by}}</a></p>
+</div>
+{% endfor %}
