@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from bugtracker_app.forms import AddTicketForm
-from bugtracker_app.models import Ticket
+from bugtracker_app.forms import AddTicketForm, LoginForm
+from bugtracker_app.models import Ticket, CustomUser
+from django.conf import settings
 
-# Create your views here.
+
 def login(request):
-    #login view required 
-    return render(request,'login.html')
+    form = LoginForm()
+    return render(request,'login.html',{'form':form})
 
 def index(request):
     new = Ticket.objects.filter(status='New')
@@ -17,18 +18,18 @@ def index(request):
         'done': done
         })
 
-def user_detail_view(request):
+def user_detail_view(request, user_id):
     #the current tickets assigned to a user
-    #which tickets that user has filed
     #which tickets that user completed
-    return render(request, 'user_detail.html')
+    user_obj = CustomUser.objects.get(id=user_id)
+    created_tickets = Ticket.objects.filter(created_by_id=user_obj)
+    
+    return render(request, "user_detail.html", {
+        "user": user_obj,
+        "created_tickets": created_tickets
+        })
 
 def submit_ticket_view(request):
-    #When a ticket is filed/created, it should have the following settings:
-    #Status: New
-    #User Assigned: None
-    #User who Completed: None
-    #User who filed: Person who's logged in
     if request.method == 'POST':
         form = AddTicketForm(request.POST)
         if form.is_valid():
@@ -36,29 +37,27 @@ def submit_ticket_view(request):
             Ticket.objects.create(
             title = data['title'],
             description = data['description'],
+            created_by=request.user
             )
     form = AddTicketForm()
     return render(request,'submit.html',{'form': form})
 
-def ticket_view(request):
+def ticket_view(request,ticket_id):
     #allows assigning a ticket to the currently logged in user
     #allows marking a ticket as invalid
-    #allows marking a ticket as complete 
-    return render(request, 'ticket_detail.html')
-
+    #allows marking a ticket as complete post_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    return render(request, "ticket_detail.html",{"ticket": ticket})
+    
 def edit_ticket_view(request):
     #Title And Description ONLY
     return render(request, 'edit_ticket.html')
 
-'''
-When a ticket is Done, these change as follows:
+def claim_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    ticket.assigned_to = request.user
+    ticket.save()
+    return render(request, 'index.html')
 
-Status: Done
-User Assigned: None
-User who Completed: person who the ticket used to belong to
-When a ticket is marked as Invalid, these change as follows:
-
-Status: Invalid
-User Assigned: None
-User who Completed: None
-'''
+def complete_ticket(request, ticket_id):
+    ...

@@ -1,1 +1,19 @@
 <h1>Ticket Detail</h1>
+
+<h1>
+    {{ticket.title}}
+</h1>
+<p>
+   Reported By: {{ticket.created_by}}
+</p>
+<p>
+    Issue: {{ticket.description}}
+</p>
+
+{% if not ticket.assigned_to%}
+    <a href="/claim/{{ticket.id}}">Claim</a>
+{% else %}
+    <p>Assigned to: {{ticket.assigned_to}}</p>
+{% endif %}
+
+<Button>Mark as Completed</Button>

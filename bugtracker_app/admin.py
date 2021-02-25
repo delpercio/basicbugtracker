@@ -5,7 +5,7 @@ from bugtracker_app.models import CustomUser, Ticket
 # Register your models here.
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display =['position'] 
+    position = 'position'
 
 admin.site.register(Ticket)
-admin.site.register(CustomUser, UserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)

@@ -2,28 +2,27 @@
 <button onclick="window.location.href='/submit/';">
     Add Ticket
   </button>
-
-
-
-
-
+  <p>Hello, {{user.username}}</p>
+  
 <h1>Incoming</h1>
 {% for item in new %}
 <div>
-    {{item.title}}
+    <p>Ticket Id: {{item.id}} Title: <a href="/ticket/{{item.id}}" >{{item.title}} </a> Created by: <a href="/user/{{user.id}}" >{{item.created_by}}</a></p>
 </div>
 {% endfor %}
 
 <h1>In Progress</h1>
 {% for item in inprogress %}
 <div>
-    {{item.title}}
+    <p>Ticket Id: {{item.id}} Title: <a href="/ticket/{{item.id}}" >{{item.title}} </a> Created by: <a href="/user/{{user.id}}" >{{item.created_by}}</a></p>
 </div>
 {% endfor %}
 
 <h1>Completed</h1>
 {% for item in done %}
 <div>
-    {{item.title}}
+    <p>Ticket Id: {{item.id}} Title: <a href="/ticket/{{item.id}}" >{{item.title}} </a> Created by: <a href="/user/{{user.id}}" >{{item.created_by}}</a></p>
 </div>
 {% endfor %}
+
+<a href="/ticket/{{ticket.id}}" >{{item.title}} </a>
